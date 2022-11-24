@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  database:
+    ports:
+      - "5432:5432"
+    environment:
+      HISTFILE: /home/worker/hist/database.txt
+    volumes:
+      - ./docker/history:/home/worker/hist:cached
+      - ./services/database/data-transfer:/data-transfer:cached

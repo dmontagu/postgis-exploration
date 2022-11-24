@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  database:
+    build:
+      context: "services/database"
+    env_file:
+      - services/database/.env
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    # image: davidmontague.xyz/postgis-exploration-database
+    secrets:
+      - database_password.txt
+    volumes:
+      - database-data:/var/lib/postgresql/data/pgdata
+
+secrets:
+  database_password.txt:
+    file: docker/secrets/database_password.txt
+
+volumes:
+  database-data:
