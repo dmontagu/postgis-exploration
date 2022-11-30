@@ -34,7 +34,7 @@ In this image:
 * Brighter green indicates lower elevation
   * Apparently `ST_AsPNG(ST_ColorMap(...))`
   converted lower elevations to brighter pixel values. 
-* The large oval actually represents a 1km-diameter circle in which the visiblity region has been computed.
+* The large oval actually represents a 1km-diameter circle in which the visibility region has been computed.
   * (The ovalness of this circle is due to distortion in the projection.)
 * The blue sections are the result of the visibility-region computation implemented in
   [sql/line_of_sight/line_of_sight.sql](sql/line_of_sight/line_of_sight.sql).
@@ -185,8 +185,8 @@ the queries. In more detail:
 I implemented this by sampling elevation values every 31 meters out to a 1-kilometer distance from the source point
 along bearings every 2 degrees from 0° to 360°. I then computed the pitch of the rays along each bearing, and filtered
 out any target points where the ray between the source and the target had a pitch that was smaller than that of another
-point along the same ray but at a closer distance, as this would indicate that the surface was obstructed from view by 
-the closer point.
+point along the same bearing but at a closer distance, as this would indicate that the surface was obstructed from view
+by the closer point.
 
 I then computed the Voronoi diagram for all the sampled points using 
 [ST_VoronoiPolygons](https://postgis.net/docs/ST_VoronoiPolygons.html), and filled in the polygons within that diagram
@@ -217,7 +217,7 @@ In particular, the edge-cost formula I used was the sum of three terms:
   * While I had some geometric justification for this formula, ultimately it was
   just a heuristic that did a good job of pushing the solution toward following ridges and other more level paths
 
-From there, I just computde the shortest path via the pgr_bdDijkstra function from pgRouting (an implementation of
+From there, I just computed the shortest path via the pgr_bdDijkstra function from pgRouting (an implementation of
 bidirectional Dijkstra's algorithm for computing the shortest path in the graph.) 
 
 This logic is contained in [sql/routing/routing.sql](sql/routing/routing.sql).
